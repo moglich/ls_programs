@@ -5,7 +5,7 @@ def valid_number?(number)
   true if /^\d*\.?\d*$/.match number
 end
 
-def get_number
+def ask_for_number
   loop do
     puts "Please enter number:"
     number = gets.chomp
@@ -19,8 +19,8 @@ system('clear screen')
 puts INTRO_MSG
 puts
 
-number1 = get_number
-number2 = get_number
+number1 = ask_for_number
+number2 = ask_for_number
 
 puts "Choose operation; + [0], - [1], * [2], / [3]:"
 operator = gets.to_i
