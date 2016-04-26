@@ -14,12 +14,20 @@ def win?(player1_choice, player2_choice)
   WINNING_STATES[player1_choice].include? player2_choice
 end
 
-def display_results(user, computer)
+def winner?(user, computer)
+  if win?(user, computer)
+    'user'
+  elsif win?(computer, user)
+    'computer'
+  end
+end
+
+def display_results(user, computer, winner)
   prompt "You chose: #{user}; the computer chose: #{computer}"
 
-  if win?(user, computer)
+  if winner == 'user'
     prompt "You won"
-  elsif win?(computer, user)
+  elsif winner == 'computer'
     prompt "Computer won"
   else
     prompt "It's a tie"
@@ -29,6 +37,9 @@ end
 def prompt(msg)
   puts "=> #{msg}"
 end
+
+player_score = 0
+computer_score = 0
 
 loop do
   system('clear screen')
@@ -47,7 +58,25 @@ loop do
 
   computer_choice = VALID_CHOICES.values.sample
 
-  display_results(choice, computer_choice)
+  winner = winner?(choice, computer_choice)
+
+  if winner == 'user'
+    player_score += 1
+  elsif winner == 'computer'
+    computer_score += 1
+  end
+
+  display_results(choice, computer_choice, winner)
+
+  prompt "Scores: You: #{player_score} Computer: #{computer_score}"
+  if player_score == 5
+    prompt "You won"
+    break
+  elsif computer_score == 5
+    prompt "Computer won"
+    break
+  end
+
 
   prompt "Do you want to play again? [y/n]"
   break unless gets.chomp == 'y'
