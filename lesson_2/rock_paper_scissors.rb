@@ -4,17 +4,14 @@ VALID_CHOICES = { 'r' => 'rock',
                   'o' => 'spock',
                   'l' => 'lizard' }.freeze
 
-def win?(player1, player2)
-  player1 == 'rock' && player2 == 'lizard' ||
-    player1 == 'paper' && player2 == 'rock' ||
-    player1 == 'scissors' && player2 == 'paper' ||
-    player1 == 'lizard' && player2 == 'spock' ||
-    player1 == 'spock' && player2 == 'scissors' ||
-    player1 == 'scissors' && player2 == 'lizard' ||
-    player1 == 'lizard' && player2 == 'paper' ||
-    player1 == 'paper' && player2 == 'spock' ||
-    player1 == 'spock' && player2 == 'rock' ||
-    player1 == 'rock' && player2 == 'scissors'
+WINNING_STATES = { 'rock' => %w(lizard scissors),
+                   'paper' => %w(rock spock),
+                   'scissors' => %w(paper lizard),
+                   'spock' => %w(scissors rock),
+                   'lizard' => %w(spock paper) }.freeze
+
+def win?(player1_choice, player2_choice)
+  WINNING_STATES[player1_choice].include? player2_choice
 end
 
 def display_results(user, computer)
