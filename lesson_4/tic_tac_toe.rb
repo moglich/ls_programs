@@ -32,22 +32,22 @@ def free_fields(board)
 end
 
 def winner?(board)
-  winning_combos = [[1,2,3], [4,5,6], [7,8,9],
-                     [1,4,7], [2,5,8], [3,6,9],
-                     [1,5,9], [3,5,7]]
+  winning_combos = [[1, 2, 3], [4, 5, 6], [7, 8, 9],
+                    [1, 4, 7], [2, 5, 8], [3, 6, 9],
+                    [1, 5, 9], [3, 5, 7]]
 
   winning_combos.each do |combo|
-    if board[combo[0]-1] == 'x' &&
-       board[combo[1]-1] == 'x' &&
-       board[combo[2]-1] == 'x'
-       return 'player'
-    elsif board[combo[0]-1] == 'o' &&
-       board[combo[1]-1] == 'o' &&
-       board[combo[2]-1] == 'o'
-       return 'computer'
+    if board[combo[0] - 1] == 'x' &&
+       board[combo[1] - 1] == 'x' &&
+       board[combo[2] - 1] == 'x'
+      return 'player'
+    elsif board[combo[0] - 1] == 'o' &&
+          board[combo[1] - 1] == 'o' &&
+          board[combo[2] - 1] == 'o'
+      return 'computer'
     end
   end
-  return nil
+  nil
 end
 
 def play_game
@@ -72,11 +72,13 @@ def play_game
     end
 
     display_board(board)
-    if winner?(board)
-      puts winner?(board)
-    end
 
-    break if free_fields(board).empty? || winner?(board)
+    winner = winner?(board)
+    if winner || free_fields(board).empty?
+      winner ||= "It's a tie"
+      puts winner
+      break
+    end
   end
 end
 
