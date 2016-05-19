@@ -51,9 +51,8 @@ def winner?(board)
 end
 
 def joinor(numbers, delimiter=', ', word='or')
-  last_number = numbers.pop
-  output = numbers.join(delimiter)
-  output + " #{word} #{last_number}"
+  numbers[-1] = "#{word} #{numbers.last}" if numbers.size > 1
+  numbers.join(delimiter)
 end
 
 def play_game
