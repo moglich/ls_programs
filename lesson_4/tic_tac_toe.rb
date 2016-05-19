@@ -50,6 +50,12 @@ def winner?(board)
   nil
 end
 
+def joinor(numbers, delimiter=', ', word='or')
+  last_number = numbers.pop
+  output = numbers.join(delimiter)
+  output + " #{word} #{last_number}"
+end
+
 def play_game
   board = Array.new(9) { ' ' }
   user_choice = ''
@@ -57,7 +63,7 @@ def play_game
 
   loop do
     loop do
-      puts 'Please choose field (1-9):'
+      puts "Please choose field #{joinor(free_fields(board), ', ')}:"
       user_choice = gets.chomp
       break if valid_choice?(user_choice, board)
       puts 'Invalid choice! Please try again'
