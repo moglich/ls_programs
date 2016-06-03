@@ -89,7 +89,7 @@ end
 
 loop do
   play_game
-  puts 'Do you want to play again? [y/n]'
+  puts 'Do you want to play again? [y/N]'
   replay = gets.chomp
   break unless replay == 'y'
 end
