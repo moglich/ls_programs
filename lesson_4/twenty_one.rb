@@ -77,15 +77,37 @@ def play_game
 
     if busted
       puts 'You are busted!'
-      break
+      exit
     end
 
     puts 'Hit or Stay [h/s]?'
     hit_or_stay = gets.chomp
 
-    break if hit_or_stay == 's'
+    break if hit_or_stay == 's' || value_player_cards == 21
 
     cards_player << pull_card(deck)
+  end
+
+  loop do
+    value_player_cards = count_cards(cards_player)
+    value_dealer_cards = count_cards(cards_dealer)
+    system 'clear screen'
+
+    puts "Your cards (#{value_player_cards}):"
+    show_cards(cards_player)
+
+    puts
+    puts "Dealer cards (#{value_dealer_cards}):"
+    show_cards(cards_dealer, true)
+
+    if value_dealer_cards > 21
+      puts 'Dealer busted, you win'
+      exit
+    elsif value_dealer_cards < 17
+      cards_dealer << pull_card(deck)
+    else
+      break
+    end
   end
 end
 
