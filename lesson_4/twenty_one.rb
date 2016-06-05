@@ -103,12 +103,15 @@ def play_game
     if value_dealer_cards > 21
       puts 'Dealer busted, you win'
       exit
-    elsif value_dealer_cards < 17
+    elsif value_dealer_cards >= 17
       cards_dealer << pull_card(deck)
     else
       break
     end
   end
+
+
+
 end
 
 play_game
