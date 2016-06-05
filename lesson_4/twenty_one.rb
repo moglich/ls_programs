@@ -64,11 +64,9 @@ def play_game
 
   loop do
     system 'clear screen'
+
     value_player_cards = count_cards(cards_player)
-    if value_player_cards > 21
-      puts 'You are busted!'
-      break
-    end
+    busted = true if value_player_cards > 21
 
     puts "Your cards (#{value_player_cards}):"
     show_cards(cards_player)
@@ -77,10 +75,16 @@ def play_game
     puts 'Dealer cards:'
     show_cards(cards_dealer, false)
 
+    if busted
+      puts 'You are busted!'
+      break
+    end
+
     puts 'Hit or Stay [h/s]?'
     hit_or_stay = gets.chomp
 
     break if hit_or_stay == 's'
+
     cards_player << pull_card(deck)
   end
 end
