@@ -54,6 +54,22 @@ def show_cards(cards, all_cards = true)
   end
 end
 
+def winner?(cards_player, cards_dealer)
+
+  value_player_cards = count_cards(cards_player)
+  value_dealer_cards = count_cards(cards_dealer)
+
+  if value_player_cards == 21 ||
+     value_player_cards > value_dealer_cards
+    'player'
+  elsif value_dealer_cards == 21 ||
+        value_player_cards < value_dealer_cards
+    'dealer'
+  else
+    'no one, it is a tie'
+  end
+end
+
 def play_game
   deck = create_deck
   cards_player = []
@@ -103,12 +119,15 @@ def play_game
     if value_dealer_cards > 21
       puts 'Dealer busted, you win'
       exit
-    elsif value_dealer_cards >= 17
+    elsif value_dealer_cards <= 17
       cards_dealer << pull_card(deck)
     else
       break
     end
   end
+
+  puts "The winner is #{winner?(cards_player, cards_dealer)}"
+
 end
 
 loop do
