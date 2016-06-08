@@ -109,9 +109,11 @@ def play_game
       break
     end
   end
-
-
-
 end
 
-play_game
+loop do
+  play_game
+  puts 'Do you want to play again? [y/n]'
+  play_again = gets.chomp
+  break unless play_again == 'y'
+end
