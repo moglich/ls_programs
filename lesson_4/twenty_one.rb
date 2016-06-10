@@ -1,4 +1,6 @@
 HIDE_DEALER_CARDS = true
+MAX_VALUE = 21
+HIT_LIMIT = 17
 
 def create_deck
   deck = {}
@@ -40,7 +42,7 @@ def count_cards(cards)
     end
   end
 
-  while (value_total > 21) && (ace_cnt > 0)
+  while (value_total > MAX_VALUE) && (ace_cnt > 0)
     value_total -= 10
     ace_cnt -= 1
   end
@@ -56,10 +58,10 @@ def winner?(cards_player, cards_dealer)
   value_player_cards = count_cards(cards_player)
   value_dealer_cards = count_cards(cards_dealer)
 
-  if value_player_cards == 21 ||
+  if value_player_cards == MAX_VALUE ||
      value_player_cards > value_dealer_cards
     'player'
-  elsif value_dealer_cards == 21 ||
+  elsif value_dealer_cards == MAX_VALUE ||
         value_player_cards < value_dealer_cards
     'dealer'
   else
@@ -90,7 +92,7 @@ def play_game
     display_stats(cards_player, cards_dealer, HIDE_DEALER_CARDS)
 
     value_player_cards = count_cards(cards_player)
-    busted = true if value_player_cards > 21
+    busted = true if value_player_cards > MAX_VALUE
 
     if busted
       puts 'You are busted!'
@@ -100,7 +102,7 @@ def play_game
     puts 'Hit or Stay [h/s]?'
     hit_or_stay = gets.chomp
 
-    break if hit_or_stay == 's' || value_player_cards == 21
+    break if hit_or_stay == 's' || value_player_cards == MAX_VALUE
 
     cards_player << pull_card(deck)
   end
@@ -110,10 +112,10 @@ def play_game
 
     value_dealer_cards = count_cards(cards_dealer)
 
-    if value_dealer_cards > 21
+    if value_dealer_cards > MAX_VALUE
       puts 'Dealer busted, you win'
       break
-    elsif value_dealer_cards <= 17
+    elsif value_dealer_cards <= HIT_LIMIT
       cards_dealer << pull_card(deck)
     else
       break
