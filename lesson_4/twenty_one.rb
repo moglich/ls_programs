@@ -1,3 +1,5 @@
+HIDE_DEALER_CARDS = true
+
 def create_deck
   deck = {}
   suits = %w(hearts diamonds clubs spades)
@@ -46,16 +48,11 @@ def count_cards(cards)
   value_total
 end
 
-def show_cards(cards, all_cards = true)
-  if !all_cards
-    puts cards.first
-  else
-    puts cards
-  end
+def show_cards(cards, hide_cards = false)
+  puts hide_cards ? cards.first : cards
 end
 
 def winner?(cards_player, cards_dealer)
-
   value_player_cards = count_cards(cards_player)
   value_dealer_cards = count_cards(cards_dealer)
 
@@ -70,6 +67,17 @@ def winner?(cards_player, cards_dealer)
   end
 end
 
+def display_stats(cards_player, cards_dealer, hide_dealer_cards = false)
+  system 'clear screen'
+
+  puts "Your cards (#{count_cards(cards_player)}):"
+  show_cards(cards_player)
+
+  puts
+  puts "Dealer cards (#{count_cards(cards_dealer) unless hide_dealer_cards}):"
+  show_cards(cards_dealer, hide_dealer_cards)
+end
+
 def play_game
   deck = create_deck
   cards_player = []
@@ -79,21 +87,14 @@ def play_game
   2.times { cards_dealer << pull_card(deck) }
 
   loop do
-    system 'clear screen'
+    display_stats(cards_player, cards_dealer, HIDE_DEALER_CARDS)
 
     value_player_cards = count_cards(cards_player)
     busted = true if value_player_cards > 21
 
-    puts "Your cards (#{value_player_cards}):"
-    show_cards(cards_player)
-
-    puts
-    puts 'Dealer cards:'
-    show_cards(cards_dealer, false)
-
     if busted
       puts 'You are busted!'
-      exit
+      break
     end
 
     puts 'Hit or Stay [h/s]?'
@@ -105,20 +106,13 @@ def play_game
   end
 
   loop do
-    value_player_cards = count_cards(cards_player)
+    display_stats(cards_player, cards_dealer)
+
     value_dealer_cards = count_cards(cards_dealer)
-    system 'clear screen'
-
-    puts "Your cards (#{value_player_cards}):"
-    show_cards(cards_player)
-
-    puts
-    puts "Dealer cards (#{value_dealer_cards}):"
-    show_cards(cards_dealer, true)
 
     if value_dealer_cards > 21
       puts 'Dealer busted, you win'
-      exit
+      break
     elsif value_dealer_cards <= 17
       cards_dealer << pull_card(deck)
     else
@@ -127,7 +121,6 @@ def play_game
   end
 
   puts "The winner is #{winner?(cards_player, cards_dealer)}"
-
 end
 
 loop do
