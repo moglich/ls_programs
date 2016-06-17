@@ -2,6 +2,10 @@ HIDE_DEALER_CARDS = true
 MAX_VALUE = 21
 HIT_LIMIT = 17
 
+def clear_screen
+  system('clear') || system('cls')
+end
+
 def create_deck
   deck = {}
   suits = %w(hearts diamonds clubs spades)
@@ -70,7 +74,7 @@ def winner?(cards_player, cards_dealer)
 end
 
 def display_stats(cards_player, cards_dealer, hide_dealer_cards = false)
-  system 'clear screen'
+  clear_screen
 
   puts "Your cards (#{count_cards(cards_player)}):"
   show_cards(cards_player)
