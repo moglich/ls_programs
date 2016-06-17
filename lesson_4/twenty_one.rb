@@ -8,17 +8,17 @@ end
 
 def create_deck
   deck = {}
-  suits = %w(hearts diamonds clubs spades)
-  suits.each { |suit| deck[suit.to_sym] = {} }
+  suits = %i(hearts diamonds clubs spades)
+  suits.each { |suit| deck[suit] = {} }
 
-  deck.each_key do |card_type|
+  deck.each_key do |suit|
     (2..10).each do |value|
-      deck[card_type][value.to_s] = value
+      deck[suit][value.to_s] = value
     end
-    deck[card_type]['jack']  = 10
-    deck[card_type]['queen'] = 10
-    deck[card_type]['king']  = 10
-    deck[card_type]['ace']   = 11
+    deck[suit]['jack']  = 10
+    deck[suit]['queen'] = 10
+    deck[suit]['king']  = 10
+    deck[suit]['ace']   = 11
   end
 
   deck
