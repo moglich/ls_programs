@@ -54,8 +54,15 @@ def count_cards(cards)
   value_total
 end
 
-def show_cards(cards, hide_cards = false)
-  puts hide_cards ? cards.first : cards
+def format_cards(cards, hide_cards = false)
+  cards = [cards[0]] if hide_cards
+
+  formated_cards = cards.map do |card|
+    suit = card.keys.first
+    value = card[suit].keys.first
+    "#{value} of #{suit}"
+  end
+  formated_cards.join ', '
 end
 
 def winner?(cards_player, cards_dealer)
@@ -76,12 +83,11 @@ end
 def display_stats(cards_player, cards_dealer, hide_dealer_cards = false)
   clear_screen
 
-  puts "Your cards (#{count_cards(cards_player)}):"
-  show_cards(cards_player)
-
+  puts "Game limit: #{MAX_VALUE}"
   puts
-  puts "Dealer cards (#{count_cards(cards_dealer) unless hide_dealer_cards}):"
-  show_cards(cards_dealer, hide_dealer_cards)
+  puts "Your cards: #{format_cards(cards_player)}"
+  puts
+  puts "Dealer cards: #{format_cards(cards_dealer, hide_dealer_cards)}"
 end
 
 def play_game
@@ -99,10 +105,11 @@ def play_game
     busted = true if value_player_cards > MAX_VALUE
 
     if busted
-      puts 'You are busted!'
+      #puts 'You are busted!'
       break
     end
 
+    puts
     puts 'Hit or Stay [h/s]?'
     hit_or_stay = gets.chomp
 
@@ -117,7 +124,7 @@ def play_game
     value_dealer_cards = count_cards(cards_dealer)
 
     if value_dealer_cards > MAX_VALUE
-      puts 'Dealer busted, you win'
+      #puts 'Dealer busted, you win'
       break
     elsif value_dealer_cards <= HIT_LIMIT
       cards_dealer << pull_card(deck)
@@ -126,11 +133,13 @@ def play_game
     end
   end
 
+  puts
   puts "The winner is #{winner?(cards_player, cards_dealer)}"
 end
 
 loop do
   play_game
+  puts
   puts 'Do you want to play again? [y/n]'
   play_again = gets.chomp
   break unless play_again == 'y'
